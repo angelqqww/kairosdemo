@@ -1,0 +1,10 @@
+// KAIROS renal vein
+// Hollow simplified hilar segment; prototype dimensions require confirmation.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import hollowTube from "construction.kcl"
+veinOuterRadius = 4.5mm
+veinLumenRadius = 3.3mm
+veinLength = 34mm
+renalVein = hollowTube(outerRadius = veinOuterRadius, innerRadius = veinLumenRadius, length = veinLength)
+  |> appearance(color = "#397bbc")

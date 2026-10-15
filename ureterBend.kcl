@@ -1,0 +1,22 @@
+// KAIROS ureter bend
+// Hollow quarter-turn prototype connection; local inlet at origin, outlet [-20,0,-20].
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import roundSection from "construction.kcl"
+bendRadius = 20mm
+bendPath = sketch(on = XZ) {
+  centerline = arc(start = [var 0mm, var 0mm], end = [var -20mm, var -20mm], center = [var 0mm, var -20mm])
+  coincident([centerline.start, ORIGIN])
+  vertical([centerline.start, centerline.center])
+  horizontal([centerline.center, centerline.end])
+  radius(centerline) == bendRadius
+}
+outerProfile = roundSection(zLevel = 0mm, xCenter = 0mm, sectionRadius = 3.2mm)
+  |> rotate(pitch = 90deg, global = true)
+innerProfile = roundSection(zLevel = 0mm, xCenter = 0mm, sectionRadius = 2mm)
+  |> rotate(pitch = 90deg, global = true)
+bendBlank = sweep(outerProfile, path = clone(bendPath))
+bendLumen = sweep(innerProfile, path = bendPath)
+hide(bendPath)
+ureterBend = subtract(bendBlank, tools = [bendLumen])
+  |> appearance(color = "#e8c580")

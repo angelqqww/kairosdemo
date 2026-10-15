@@ -1,0 +1,8 @@
+// KAIROS reference marker
+// Visual datum only; not a physical biosensor.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import roundSection from "construction.kcl"
+markerProfile = roundSection(zLevel = 0mm, xCenter = 0mm, sectionRadius = 0.7mm)
+referenceMarker = extrude(markerProfile, length = 1mm, symmetric = true)
+  |> appearance(color = "#ffd44b")

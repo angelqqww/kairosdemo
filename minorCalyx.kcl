@@ -1,0 +1,13 @@
+// KAIROS representative calyx
+// Hollow tapered cup; small end joins collecting branch, large end receives papilla.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import roundSection from "construction.kcl"
+neckOuter = roundSection(zLevel = -5mm, xCenter = 0mm, sectionRadius = 2.5mm)
+cupOuter = roundSection(zLevel = 5mm, xCenter = 0mm, sectionRadius = 4mm)
+cupBlank = loft([neckOuter, cupOuter])
+neckInner = roundSection(zLevel = -5.1mm, xCenter = 0mm, sectionRadius = 1.3mm)
+cupInner = roundSection(zLevel = 5.1mm, xCenter = 0mm, sectionRadius = 2.8mm)
+cupLumen = loft([neckInner, cupInner])
+minorCalyx = subtract(cupBlank, tools = [cupLumen])
+  |> appearance(color = "#e6c088")

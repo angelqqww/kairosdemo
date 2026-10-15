@@ -1,0 +1,15 @@
+// KAIROS renal pelvis
+// Hollow simplified funnel; local outlet is z=-12mm, axis Z.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import roundSection from "construction.kcl"
+outletOuter = roundSection(zLevel = -12mm, xCenter = 0mm, sectionRadius = 3.2mm)
+bowlOuter = roundSection(zLevel = 0mm, xCenter = 3mm, sectionRadius = 6mm)
+mouthOuter = roundSection(zLevel = 12mm, xCenter = 4mm, sectionRadius = 5mm)
+pelvisBlank = loft([outletOuter, bowlOuter, mouthOuter])
+outletInner = roundSection(zLevel = -12.1mm, xCenter = 0mm, sectionRadius = 2mm)
+bowlInner = roundSection(zLevel = 0mm, xCenter = 3mm, sectionRadius = 4.8mm)
+mouthInner = roundSection(zLevel = 12.1mm, xCenter = 4mm, sectionRadius = 3.8mm)
+pelvisLumen = loft([outletInner, bowlInner, mouthInner])
+renalPelvis = subtract(pelvisBlank, tools = [pelvisLumen])
+  |> appearance(color = "#dfb166")

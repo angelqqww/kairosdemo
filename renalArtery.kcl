@@ -1,0 +1,10 @@
+// KAIROS renal artery
+// Hollow simplified hilar segment; prototype dimensions require confirmation.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import hollowTube from "construction.kcl"
+arteryOuterRadius = 3.5mm
+arteryLumenRadius = 2.3mm
+arteryLength = 32mm
+renalArtery = hollowTube(outerRadius = arteryOuterRadius, innerRadius = arteryLumenRadius, length = arteryLength)
+  |> appearance(color = "#c93142")

@@ -1,0 +1,10 @@
+title = "Kairos"
+default_file = "main.kcl"
+
+[settings.app]
+[settings.meta]
+id = "cc62b67f-3c84-4f12-81c0-dc9b5c3d0009"
+
+[settings.modeling]
+[cloud."zoo.dev"]
+project_id = "bfba7f4a-f2a5-4cae-a985-530ccfe52282"

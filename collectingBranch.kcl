@@ -1,0 +1,7 @@
+// KAIROS collecting branch
+// Hollow interchangeable representative major-calyx segment.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import hollowTube from "construction.kcl"
+collectingBranch = hollowTube(outerRadius = 2.5mm, innerRadius = 1.3mm, length = 16mm)
+  |> appearance(color = "#ddb779")

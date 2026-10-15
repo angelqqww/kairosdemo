@@ -1,0 +1,8 @@
+// KAIROS R01 superior cortex
+// Engineering visualization band, local origin at band midpoint.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import cortexBand from "cortexConstruction.kcl"
+import organLength from "parameters.kcl"
+superiorCortex = cortexBand(lowZ = organLength / 4, highZ = organLength / 2)
+  |> appearance(color = "#c77970")

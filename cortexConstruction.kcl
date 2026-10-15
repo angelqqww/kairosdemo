@@ -1,0 +1,25 @@
+// KAIROS cortex region construction
+// Four axial visualization bands; not vascular segmentation.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+import kidneyEnvelope, rectangularBlock, roundSection from "construction.kcl"
+import organLength, organWidth, organDepth, shellReduction, tissueClearance, cortexReduction from "parameters.kcl"
+export fn cortexBand(lowZ, highZ) {
+  inset = shellReduction + tissueClearance
+  cortexOuter = kidneyEnvelope(length = organLength - 2 * inset, width = organWidth - 2 * inset, depth = organDepth - 2 * inset)
+  medullarySpace = kidneyEnvelope(length = organLength - 2 * (inset + cortexReduction), width = organWidth - 2 * (inset + cortexReduction), depth = organDepth - 2 * (inset + cortexReduction))
+  tissueShell = subtract(cortexOuter, tools = [medullarySpace])
+  bandMask = rectangularBlock(width = 160mm, depth = 80mm, height = highZ - lowZ - 0.2mm)
+    |> translate(z = (highZ + lowZ) / 2, global = true)
+  bandBody = intersect([tissueShell, bandMask])
+  openedBand = if lowZ < 16mm & highZ > -16mm {
+    hilarProfile = roundSection(zLevel = 0mm, xCenter = 0mm, sectionRadius = 10mm)
+    hilarTool = extrude(hilarProfile, length = 60mm, symmetric = true)
+      |> rotate(pitch = 90deg, global = true)
+      |> scale(z = 1.6, global = true)
+      |> translate(x = -30mm, global = true)
+    subtract(bandBody, tools = [hilarTool])
+  } else {
+    bandBody
+  }
+  return translate(openedBand, z = -(highZ + lowZ) / 2, global = true)
+}

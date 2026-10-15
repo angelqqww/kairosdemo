@@ -1,0 +1,10 @@
+// KAIROS proximal ureter
+// Hollow straight prototype segment; not a patient-specific ureter trajectory.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import hollowTube from "construction.kcl"
+ureterOuterRadius = 3.2mm
+ureterLumenRadius = 2mm
+ureterLength = 45mm
+proximalUreter = hollowTube(outerRadius = ureterOuterRadius, innerRadius = ureterLumenRadius, length = ureterLength)
+  |> appearance(color = "#e8c580")

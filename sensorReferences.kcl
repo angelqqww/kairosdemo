@@ -1,0 +1,6 @@
+// KAIROS sensor metadata
+// Provisional non-contact interface frames; coordinates in assembled organ space.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+export s01Reference = { id = "S01", regionId = "R01", position = [0mm, -18mm, 36mm], normal = [0, -1, 0], xAxis = [1, 0, 0], yAxis = [0, 0, 1], variable = "surfaceTemperature", status = "placeholder-interface-normal-not-verified-tissue-normal" }
+export s02Reference = { id = "S02", regionId = "R02", position = [12mm, -18mm, 12mm], normal = [0, -1, 0], xAxis = [1, 0, 0], yAxis = [0, 0, 1], variable = "opticalReflectanceProxy", status = "placeholder-interface-normal-not-verified-tissue-normal" }
+export s03Reference = { id = "S03", regionId = "R04", position = [0mm, -18mm, -36mm], normal = [0, -1, 0], xAxis = [1, 0, 0], yAxis = [0, 0, 1], variable = "surfaceStrain", status = "placeholder-interface-normal-not-verified-tissue-normal" }

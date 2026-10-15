@@ -1,0 +1,8 @@
+// KAIROS R02 upper hilar cortex
+// Engineering visualization band, local origin at band midpoint.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import cortexBand from "cortexConstruction.kcl"
+import organLength from "parameters.kcl"
+upperHilarCortex = cortexBand(lowZ = 0mm, highZ = organLength / 4)
+  |> appearance(color = "#ae645b")

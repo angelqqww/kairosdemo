@@ -1,0 +1,63 @@
+// KAIROS shared construction
+// Dimension-driven sections for repeated anatomical and prototype features.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+export fn roundSection(zLevel, xCenter, sectionRadius) {
+  sectionSketch = sketch(on = offsetPlane(XY, offset = zLevel)) {
+    boundary = circle(center = [var 0mm, var 0mm], start = [var 20mm, var 0mm])
+    horizontalDistance([ORIGIN, boundary.center]) == xCenter
+    verticalDistance([ORIGIN, boundary.center]) == 0mm
+    radius(boundary) == sectionRadius
+    horizontal([boundary.center, boundary.start])
+  }
+  sectionRegion = region(segments = [sectionSketch.boundary])
+  hide(sectionSketch)
+  return sectionRegion
+}
+
+export fn kidneyEnvelope(length, width, depth) {
+  inferiorTip = roundSection(zLevel = -length / 2, xCenter = 0mm, sectionRadius = width / 120)
+  inferiorPole = roundSection(zLevel = -length * 0.43, xCenter = 0mm, sectionRadius = width * 0.25)
+  inferiorBody = roundSection(zLevel = -length * 0.27, xCenter = 0mm, sectionRadius = width * 0.46)
+  hilarWaist = roundSection(zLevel = 0mm, xCenter = width * 0.18, sectionRadius = width * 0.36)
+  superiorBody = roundSection(zLevel = length * 0.27, xCenter = 0mm, sectionRadius = width * 0.46)
+  superiorPole = roundSection(zLevel = length * 0.43, xCenter = 0mm, sectionRadius = width * 0.25)
+  superiorTip = roundSection(zLevel = length / 2, xCenter = 0mm, sectionRadius = width / 120)
+  envelope = loft([inferiorTip, inferiorPole, inferiorBody, hilarWaist, superiorBody, superiorPole, superiorTip], vDegree = 3)
+    |> scale(y = depth / width, global = true)
+  return envelope
+}
+
+export fn rectangularBlock(width, depth, height) {
+  blockSketch = sketch(on = XY) {
+    bottom = line(start = [var 0mm, var 0mm], end = [var 10mm, var 0mm])
+    right = line(start = [var 10mm, var 0mm], end = [var 10mm, var 10mm])
+    top = line(start = [var 10mm, var 10mm], end = [var 0mm, var 10mm])
+    left = line(start = [var 0mm, var 10mm], end = [var 0mm, var 0mm])
+    coincident([bottom.start, ORIGIN])
+    coincident([bottom.end, right.start])
+    coincident([right.end, top.start])
+    coincident([top.end, left.start])
+    coincident([left.end, bottom.start])
+    horizontal(bottom)
+    horizontal(top)
+    vertical(left)
+    vertical(right)
+    distance([bottom.start, bottom.end]) == width
+    distance([right.start, right.end]) == depth
+  }
+  blockRegion = region(segments = [blockSketch.bottom, blockSketch.right], intersectionIndex = -1, direction = CCW)
+  blockBody = extrude(blockRegion, length = height)
+    |> translate(x = -width / 2, y = -depth / 2, z = -height / 2, global = true)
+  hide(blockSketch)
+  return blockBody
+}
+
+export fn hollowTube(outerRadius, innerRadius, length) {
+  outerSection = roundSection(zLevel = 0mm, xCenter = 0mm, sectionRadius = outerRadius)
+  innerSection = roundSection(zLevel = 0mm, xCenter = 0mm, sectionRadius = innerRadius)
+  tubeBlank = extrude(outerSection, length = length, symmetric = true)
+  tubeBore = extrude(innerSection, length = length + 2mm, symmetric = true)
+  tubeBody = subtract(tubeBlank, tools = [tubeBore])
+  return tubeBody
+}

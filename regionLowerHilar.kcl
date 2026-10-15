@@ -1,0 +1,8 @@
+// KAIROS R03 lower hilar cortex
+// Engineering visualization band, local origin at band midpoint.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import cortexBand from "cortexConstruction.kcl"
+import organLength from "parameters.kcl"
+lowerHilarCortex = cortexBand(lowZ = -organLength / 4, highZ = 0mm)
+  |> appearance(color = "#c98b75")

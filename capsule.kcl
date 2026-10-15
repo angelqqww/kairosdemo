@@ -1,0 +1,19 @@
+// KAIROS anterior capsule
+// Removable engineering shell; thickness is not biological capsule thickness.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import kidneyEnvelope, rectangularBlock, roundSection from "construction.kcl"
+import organLength, organWidth, organDepth, shellReduction from "parameters.kcl"
+outerEnvelope = kidneyEnvelope(length = organLength, width = organWidth, depth = organDepth)
+innerEnvelope = kidneyEnvelope(length = organLength - (2 * shellReduction), width = organWidth - (2 * shellReduction), depth = organDepth - (2 * shellReduction))
+shellBlank = subtract(outerEnvelope, tools = [innerEnvelope])
+anteriorMask = rectangularBlock(width = 160mm, depth = 80mm, height = 160mm)
+  |> translate(y = -40.1mm, global = true)
+halfShell = intersect([shellBlank, anteriorMask])
+hilarProfile = roundSection(zLevel = 0mm, xCenter = 0mm, sectionRadius = 10mm)
+hilarTool = extrude(hilarProfile, length = 60mm, symmetric = true)
+  |> rotate(pitch = 90deg, global = true)
+  |> scale(z = 1.6, global = true)
+  |> translate(x = -30mm, global = true)
+anteriorCapsule = subtract(halfShell, tools = [hilarTool])
+  |> appearance(color = "#c97c83", opacity = 30)

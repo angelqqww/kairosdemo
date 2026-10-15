@@ -1,0 +1,11 @@
+// KAIROS support cradle
+// Conforming removable bench socket; not an anatomical structure.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import rectangularBlock, kidneyEnvelope from "construction.kcl"
+import organLength, organWidth, organDepth from "parameters.kcl"
+cradleBlank = rectangularBlock(width = 44mm, depth = 32mm, height = 20mm)
+organClearance = kidneyEnvelope(length = organLength + 0.8mm, width = organWidth + 0.8mm, depth = organDepth + 0.8mm)
+  |> translate(z = organLength / 2 - 2mm, global = true)
+cradle = subtract(cradleBlank, tools = [organClearance])
+  |> appearance(color = "#59697b")

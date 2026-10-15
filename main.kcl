@@ -1,0 +1,164 @@
+// KAIROS kidney assembly
+// Left kidney; +X left, +Y posterior, +Z superior; millimeter coordinates.
+@settings(kclVersion = 2.0, defaultLengthUnit = mm)
+
+import "capsule.kcl" as capsule
+import reviewOffset, organLength from "parameters.kcl"
+import "regionSuperior.kcl" as superiorRegion
+import "regionUpperHilar.kcl" as upperHilarRegion
+import "regionLowerHilar.kcl" as lowerHilarRegion
+import "regionInferior.kcl" as inferiorRegion
+import "medullaryPyramid.kcl" as pyramid
+import "renalPelvis.kcl" as pelvis
+import "minorCalyx.kcl" as calyx
+import "collectingBranch.kcl" as branch
+import "renalArtery.kcl" as artery
+import "renalVein.kcl" as vein
+import "ureterBend.kcl" as bend
+import "ureter.kcl" as ureter
+import "sensorCarrier.kcl" as carrier
+import "referenceMarker.kcl" as marker
+import "benchSupport.kcl" as base
+import "cradle.kcl" as socket
+import s01Reference, s02Reference, s03Reference from "sensorReferences.kcl"
+posteriorCapsule = clone(capsule)
+  |> rotate(roll = 180deg, global = true)
+anteriorCapsule = translate(capsule, y = -reviewOffset, global = true)
+
+r01SuperiorCortex = translate(
+  superiorRegion,
+  z = organLength * 3 / 8,
+  y = reviewOffset,
+  global = true,
+)
+r02UpperHilarCortex = translate(
+  upperHilarRegion,
+  z = organLength / 8,
+  y = reviewOffset,
+  global = true,
+)
+r03LowerHilarCortex = translate(
+  lowerHilarRegion,
+  z = -organLength / 8,
+  y = reviewOffset,
+  global = true,
+)
+r04InferiorCortex = translate(
+  inferiorRegion,
+  z = -organLength * 3 / 8,
+  y = reviewOffset,
+  global = true,
+)
+
+superiorPyramid = clone(pyramid)
+  |> scale(y = 0.45, global = true)
+  |> rotate(roll = 180deg, global = true)
+  |> translate(z = 39mm, global = true)
+upperLateralPyramid = clone(pyramid)
+  |> scale(y = 0.45, global = true)
+  |> rotate(pitch = 225deg, global = true)
+  |> translate(x = 10mm, z = 22mm, global = true)
+lateralPyramid = clone(pyramid)
+  |> scale(
+       x = 0.75,
+       y = 0.45,
+       z = 0.75,
+       global = true,
+     )
+  |> rotate(pitch = -90deg, global = true)
+  |> translate(x = 17mm, global = true)
+lowerLateralPyramid = clone(pyramid)
+  |> scale(y = 0.45, global = true)
+  |> rotate(pitch = -45deg, global = true)
+  |> translate(x = 10mm, z = -22mm, global = true)
+inferiorPyramid = scale(pyramid, y = 0.45, global = true)
+  |> translate(z = -39mm, global = true)
+
+superiorCalyx = clone(calyx)
+  |> translate(z = 26mm, global = true)
+upperLateralCalyx = clone(calyx)
+  |> rotate(pitch = 45deg, global = true)
+  |> translate(x = 0.808mm, z = 12.808mm, global = true)
+lateralCalyx = clone(calyx)
+  |> rotate(pitch = 90deg, global = true)
+  |> translate(x = 6mm, global = true)
+lowerLateralCalyx = clone(calyx)
+  |> rotate(pitch = 135deg, global = true)
+  |> translate(x = 0.808mm, z = -12.808mm, global = true)
+inferiorCalyx = rotate(calyx, roll = 180deg, global = true)
+  |> translate(z = -26mm, global = true)
+superiorCollectingBranch = clone(branch)
+  |> translate(z = 13mm, global = true)
+inferiorCollectingBranch = translate(branch, z = -13mm, global = true)
+renalPelvis = rotate(pelvis, pitch = 90deg, global = true)
+  |> translate(x = -6mm, global = true)
+renalArtery = rotate(artery, pitch = 90deg, global = true)
+  |> translate(
+       x = -24mm,
+       y = 4mm,
+       z = 6mm,
+       global = true,
+     )
+renalVein = rotate(vein, pitch = 90deg, global = true)
+  |> translate(
+       x = -24mm,
+       y = -5mm,
+       z = 6mm,
+       global = true,
+     )
+ureterElbow = translate(bend, x = -18mm, global = true)
+proximalUreter = translate(
+  ureter,
+  x = -38mm,
+  z = -42.5mm,
+  global = true,
+)
+
+s01SensorCarrier = clone(carrier)
+  |> rotate(roll = 90deg, global = true)
+  |> translate(
+       x = s01Reference.position[0],
+       y = s01Reference.position[1] - reviewOffset,
+       z = s01Reference.position[2],
+       global = true,
+     )
+s02SensorCarrier = clone(carrier)
+  |> rotate(roll = 90deg, global = true)
+  |> translate(
+       x = s02Reference.position[0],
+       y = s02Reference.position[1] - reviewOffset,
+       z = s02Reference.position[2],
+       global = true,
+     )
+s03SensorCarrier = rotate(carrier, roll = 90deg, global = true)
+  |> translate(
+       x = s03Reference.position[0],
+       y = s03Reference.position[1] - reviewOffset,
+       z = s03Reference.position[2],
+       global = true,
+     )
+s01ReferencePoint = clone(marker)
+  |> rotate(roll = 90deg, global = true)
+  |> translate(
+       x = s01Reference.position[0],
+       y = s01Reference.position[1] - reviewOffset,
+       z = s01Reference.position[2],
+       global = true,
+     )
+s02ReferencePoint = clone(marker)
+  |> rotate(roll = 90deg, global = true)
+  |> translate(
+       x = s02Reference.position[0],
+       y = s02Reference.position[1] - reviewOffset,
+       z = s02Reference.position[2],
+       global = true,
+     )
+s03ReferencePoint = rotate(marker, roll = 90deg, global = true)
+  |> translate(
+       x = s03Reference.position[0],
+       y = s03Reference.position[1] - reviewOffset,
+       z = s03Reference.position[2],
+       global = true,
+     )
+benchBase = translate(base, z = -70.5mm, global = true)
+organCradle = translate(socket, z = -58mm, global = true)

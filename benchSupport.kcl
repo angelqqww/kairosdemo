@@ -1,0 +1,36 @@
+// KAIROS bench support
+// Non-biological adjustable-development fixture with clearance slot and through mounting holes.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import rectangularBlock, roundSection from "construction.kcl"
+baseWidth = 100mm
+baseDepth = 65mm
+baseThickness = 5mm
+baseBlank = rectangularBlock(width = baseWidth, depth = baseDepth, height = baseThickness)
+mountProfile = roundSection(zLevel = 0mm, xCenter = 0mm, sectionRadius = 2.2mm)
+mountTool = extrude(mountProfile, length = 8mm, symmetric = true)
+firstMountTool = clone(mountTool)
+  |> translate(x = -40mm, y = -24mm, global = true)
+secondMountTool = clone(mountTool)
+  |> translate(x = 40mm, y = -24mm, global = true)
+thirdMountTool = clone(mountTool)
+  |> translate(x = -40mm, y = 24mm, global = true)
+fourthMountTool = translate(
+  mountTool,
+  x = 40mm,
+  y = 24mm,
+  global = true,
+)
+wireSlot = rectangularBlock(width = 6mm, depth = 24mm, height = 8mm)
+  |> translate(y = 24mm, global = true)
+benchSupport = subtract(
+  baseBlank,
+  tools = [
+    firstMountTool,
+    secondMountTool,
+    thirdMountTool,
+    fourthMountTool,
+    wireSlot
+  ],
+)
+  |> appearance(color = "#434f64")

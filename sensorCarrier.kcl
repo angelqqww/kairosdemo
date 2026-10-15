@@ -1,0 +1,11 @@
+// KAIROS sensor carrier
+// Removable annular seat with radial cable access; dimensions are packaging placeholders.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import hollowTube, rectangularBlock from "construction.kcl"
+import sensorDiameter, sensorClearance, sensorCarrierHeight from "parameters.kcl"
+carrierRing = hollowTube(outerRadius = sensorDiameter / 2 + 2mm, innerRadius = sensorDiameter / 2 + sensorClearance, length = sensorCarrierHeight)
+cableSlot = rectangularBlock(width = 8mm, depth = 2mm, height = sensorCarrierHeight + 2mm)
+  |> translate(x = 6mm, global = true)
+sensorCarrier = subtract(carrierRing, tools = [cableSlot])
+  |> appearance(color = "#39bbb0")

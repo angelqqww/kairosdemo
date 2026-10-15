@@ -1,0 +1,12 @@
+// KAIROS medullary pyramid
+// Representative rounded conical volume; dimensions require anatomical confirmation.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+
+import roundSection from "construction.kcl"
+pyramidBaseRadius = 7mm
+papillaRadius = 1.8mm
+pyramidLength = 16mm
+baseSection = roundSection(zLevel = -pyramidLength / 2, xCenter = 0mm, sectionRadius = pyramidBaseRadius)
+papillaSection = roundSection(zLevel = pyramidLength / 2, xCenter = 0mm, sectionRadius = papillaRadius)
+medullaryPyramid = loft([baseSection, papillaSection])
+  |> appearance(color = "#8f384b")

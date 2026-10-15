@@ -1,0 +1,14 @@
+// KAIROS master dimensions
+// Sourced envelope and explicitly provisional engineering dimensions.
+@settings(defaultLengthUnit = mm, kclVersion = 2.0)
+export organLength = 120mm
+export organWidth = 60mm
+export organDepth = 30mm
+export shellReduction = 2mm
+export tissueClearance = 0.4mm
+export cortexReduction = 6mm
+export sensorDiameter = 8mm
+export sensorClearance = 0.3mm
+export sensorCarrierHeight = 3mm
+// Set to 75mm for exploded inspection; keep 0mm for assembled placement.
+export reviewOffset = 0mm
